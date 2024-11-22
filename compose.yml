@@ -1,0 +1,76 @@
+services:
+  nginx:
+    container_name: standard_project_nginx
+    build:
+      context: ./
+      dockerfile: docker/development/nginx/Dockerfile
+    ports:
+      - "${NGINX_HTTP_PORT:-8080}:8080"
+      - "${NGINX_HTTPS_PORT:-8443}:8443"
+      - "${NGINX_HTTPS_PORT:-8443}:8443/udp"
+    volumes:
+      - type: bind
+        source: ./www/public
+        target: /var/www/public
+    depends_on:
+      - php
+    environment:
+      TZ: Asia/Tokyo
+
+  php:
+    container_name: standard_project_php
+    build:
+      context: ./
+      dockerfile: docker/development/php/Dockerfile
+    volumes:
+      - type: bind
+        source: ./www
+        target: /var/www
+    healthcheck:
+      test: ['CMD', 'docker-healthcheck']
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    links:
+      - database
+
+  database:
+    container_name: standard_project_pgsql
+    build:
+      context: ./
+      dockerfile: docker/development/database/Dockerfile
+    volumes:
+      - pgsql_data:/var/lib/postgresql/data:rw
+    ports:
+      - "${POSTGRES_DB_PORT:-5432}:5432"
+    environment:
+      POSTGRES_DB: project_db
+      POSTGRES_USER: standard_project_user
+      POSTGRES_PASSWORD: secret
+      POSTGRES_INITDB_ARGS: --encoding=UTF-8 --locale=C
+    command: >
+      -c log_destination=stderr
+      -c log_statement=all 
+      -c log_connections=on 
+      -c log_disconnections=on
+      -c logging_collector=on
+      -c log_line_prefix='[%t]%u %d %p[%l]'
+      -c log_min_duration_statement=3000
+    logging:
+      options:
+        max-size: "10k"
+        max-file: "5"
+
+  # output table define.
+  tbls:
+    container_name: standard_project_dbdoc
+    image: k1low/tbls:latest
+    volumes:
+      - ./docs/schema:/schema
+    command: doc postgres://standard_project_user:secret@standard_project_pgsql:5432/project_db?sslmode=disable ./schema --force
+    profiles:
+      - dbdoc
+
+volumes:
+  pgsql_data:
+    driver: local
