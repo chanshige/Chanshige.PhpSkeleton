@@ -59,7 +59,7 @@ Included in this package are:
 
     $ cp ./qatools/phpcs.xml ./www
     $ cp ./qatools/phpmd.xml ./www
-    $ cp ./qatools/phpmetrics.json ./www/phpmetrics.json
+    $ cp ./qatools/phpmetrics.json ./www
     $ cp ./qatools/phpstan.neon ./www
     $ cp ./qatools/phpunit.xml.dist ./www/phpunit.xml
     $ rm -rf ./qatools
