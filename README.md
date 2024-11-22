@@ -1,5 +1,6 @@
 PHP standard project
 --
+nginx - php-fpm(Fast CGI) 
 
 directory structure
 --
@@ -11,9 +12,12 @@ directory structure
     ├── qatools/ # QA.Tools
     └── www/     # application
 
-env
+version
 --
-php 8.3
+- linux alpine 3.20
+- nginx 1.x
+- php 8.3.x
+- postgresql 15.x
 
 create project
 --
