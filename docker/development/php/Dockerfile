@@ -1,10 +1,10 @@
 FROM php:8.3-fpm-alpine3.20
 LABEL maintainer="dev@shigeki.tokyo"
 
-COPY ./docker/php/php.ini $PHP_INI_DIR
-COPY ./docker/php/conf.d/* $PHP_INI_DIR/conf.d/
-COPY ./docker/php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/
-COPY ./docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
+COPY ./docker/development/php/php.ini $PHP_INI_DIR
+COPY ./docker/development/php/conf.d/* $PHP_INI_DIR/conf.d/
+COPY ./docker/development/php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/
+COPY ./docker/development/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
 RUN chmod +x /usr/local/bin/docker-healthcheck
 
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
