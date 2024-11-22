@@ -20,6 +20,7 @@ create project
 
 ### Installation
     > cd ./
+    $ cp .env.compose .env
     $ docker-compose build php --no-cache
     $ docker compose run --rm --no-deps php composer create-project symfony/skeleton .
     $ docker-compose up -d nginx
