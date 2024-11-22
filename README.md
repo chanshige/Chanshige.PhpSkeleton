@@ -1,9 +1,23 @@
 PHP standard project
 --
 
+directory structure
+--
+    .
+    ├── README.md [This file]
+    ├── compose.yml
+    ├── docker/  # infra
+    ├── misc     # Zatta
+    ├── qatools/ # QA.Tools
+    └── www/     # application
+
+env
+--
+php 8.3
+
 create project
 --
-### create self singed certificate
+### create self-signed certificate
     $ cd ./docker/development/nginx/ssl
     $ openssl genrsa 4096 > server.key
 
@@ -18,7 +32,7 @@ create project
 
         $ openssl x509 -days 3650 -req -sha256 -signkey server.key < server.csr > server.crt
 
-### Installation
+### installation
     > cd ./
     $ cp .env.compose .env
     $ docker-compose build php --no-cache
@@ -36,7 +50,7 @@ Included in this package are:
 * [phpstan/phpstan](https://github.com/phpstan/phpstan) A PHP Static Analysis Tool.
 * [phpmetrics/phpmetrics](http://www.phpmetrics.org/) Static analysis tool for PHP.
 
-### Installation
+### installation
     // Add "require-dev" and "scripts" in ./qatools/composer.json to ./www/composer.json
 
     $ cp ./qatools/phpcs.xml ./www
