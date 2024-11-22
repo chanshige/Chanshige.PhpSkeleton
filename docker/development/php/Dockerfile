@@ -33,8 +33,8 @@ RUN apk upgrade --update \
   freetype-dev \
   exiftool \
   strace \
-  && pecl install crypto-0.3.2 apcu xdebug \
-  && docker-php-ext-enable crypto apcu xdebug \
+  && pecl install apcu xdebug \
+  && docker-php-ext-enable apcu xdebug \
   && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
   && docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql \
   && docker-php-ext-install -j$(nproc) \
